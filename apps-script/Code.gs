@@ -50,8 +50,14 @@ function doPost(e) {
       'Pending',
     ]);
 
-    notifyOwner(name, email, params.role, params.heardFrom, newPosition);
-    notifySignup(name, email, newPosition);
+    try {
+      notifyOwner(name, email, params.role, params.heardFrom, newPosition);
+      notifySignup(name, email, newPosition);
+    } catch (mailError) {
+      // The row is already written — a failed notification shouldn't make
+      // the signup look like it failed. Log for manual follow-up instead.
+      Logger.log('Failed to send waitlist emails for ' + email + ': ' + mailError);
+    }
 
     return jsonResponse({ status: 'success', position: newPosition });
   } catch (error) {
