@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApplyMaxx — Your South African job search, automated</title>
+  <meta name="description" content="ApplyMaxx scans South African job boards daily, scores every posting against your profile, and applies for you. Join the waitlist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Your South African job search, automated.</h1>
+        <p class="hero-sub">
+          ApplyMaxx scans PNet, CareerJunction, Careers24 and local Workday boards every day,
+          scores each posting against your profile, and applies for you — so you spend less time
+          searching and more time interviewing.
+        </p>
+        <a href="#signup" class="button button-primary">Join the waitlist</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>Built for the South African job market</h2>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>South-Africa-first sources</h3>
+            <p>PNet, CareerJunction, Careers24 and local Workday boards — not a global firehose with fifteen SA jobs buried in twenty thousand.</p>
+          </article>
+          <article class="feature-card">
+            <h3>AI-matched relevance</h3>
+            <p>Every posting is scored against your actual profile, so you see the roles worth your time, not everything with a matching keyword.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Auto-apply, done properly</h3>
+            <p>Fills and submits applications on Greenhouse, Lever and Ashby-style forms — the tedious part, handled.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Human-in-the-loop fallback</h3>
+            <p>CAPTCHAs and anything else it can't safely finish alone gets handed back to you, not silently dropped.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="container">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-number">1</span>
+            <h3>Tell it what you want</h3>
+            <p>Target roles, seniority, and where you're willing to work.</p>
+          </li>
+          <li>
+            <span class="step-number">2</span>
+            <h3>It scans SA job boards daily</h3>
+            <p>New postings get pulled in automatically, every day.</p>
+          </li>
+          <li>
+            <span class="step-number">3</span>
+            <h3>AI scores each match</h3>
+            <p>Every posting is ranked against your profile before anything happens.</p>
+          </li>
+          <li>
+            <span class="step-number">4</span>
+            <h3>It applies for the strong matches</h3>
+            <p>Forms get filled and submitted — anything it can't finish safely comes back to you.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="signup" id="signup">
+      <div class="container">
+        <h2>Join the waitlist</h2>
+        <p class="signup-sub">Be first to know when ApplyMaxx launches.</p>
+
+        <form id="signup-form" novalidate>
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required />
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required />
+          </div>
+
+          <div class="form-row">
+            <label for="role">What role are you looking for?</label>
+            <input type="text" id="role" name="role" placeholder="e.g. RPA Developer" />
+          </div>
+
+          <div class="form-row">
+            <label for="heard-from">How did you hear about us?</label>
+            <select id="heard-from" name="heardFrom">
+              <option value="">Select one</option>
+              <option value="friend">Friend / colleague</option>
+              <option value="twitter">Twitter / X</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="reddit">Reddit</option>
+              <option value="search">Search</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-row form-row-checkbox">
+            <input type="checkbox" id="consent" name="consent" required />
+            <label for="consent">Email me about ApplyMaxx's launch — no spam, unsubscribe anytime.</label>
+          </div>
+
+          <!-- Honeypot: hidden from real users via off-screen positioning (not
+               display:none), so bots that skip display:none fields still get caught. -->
+          <div class="form-row honeypot" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="button button-primary" id="submit-button">
+            <span class="button-label">Join the waitlist</span>
+          </button>
+
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 ApplyMaxx. <a href="mailto:jobileecareerservices@gmail.com">jobileecareerservices@gmail.com</a></p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
