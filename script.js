@@ -2,7 +2,7 @@ import { buildSignupPayload, validateSignupPayload, parseSignupResponse } from '
 
 // Replace with the deployment URL from docs/SETUP.md after deploying the
 // Apps Script backend.
-const APPS_SCRIPT_URL = 'REPLACE_WITH_YOUR_APPS_SCRIPT_DEPLOYMENT_URL';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyY2tW4CEicwZMfbKenze6yKtWrmHCIh3ZvqHzKNsvDuh818ABalJRskCPeYBBHbmhG/exec';
 
 const form = document.getElementById('signup-form');
 const submitButton = document.getElementById('submit-button');
