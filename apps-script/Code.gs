@@ -12,7 +12,19 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function doPost(e) {
   try {
-    const params = e.parameter;
+    let params = e.parameter;
+
+    // Fallback: if Apps Script didn't populate e.parameter (e.g. the
+    // request's declared content type wasn't recognized as form-encoded),
+    // parse the raw body ourselves so a urlencoded POST still works
+    // regardless of how the request arrived.
+    if ((!params || !params.name) && e.postData && e.postData.contents) {
+      params = {};
+      e.postData.contents.split('&').forEach(function (pair) {
+        const kv = pair.split('=');
+        params[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || '').replace(/\+/g, ' '));
+      });
+    }
 
     // Honeypot: bots that fill hidden fields get a success-shaped response
     // so they don't learn they were caught, but nothing is recorded.
@@ -29,6 +41,9 @@ function doPost(e) {
     if (!EMAIL_PATTERN.test(email)) {
       return jsonResponse({ status: 'error', message: 'A valid email is required.' });
     }
+    if (params.consent !== 'yes') {
+      return jsonResponse({ status: 'error', message: 'Consent is required to join the waitlist.' });
+    }
 
     const sheet = getSheet();
     const existingRow = findRowByEmail(sheet, email);
@@ -41,10 +56,10 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date(),
-      name,
-      email,
-      params.role || '',
-      params.heardFrom || '',
+      sanitizeForSheet(name),
+      sanitizeForSheet(email),
+      sanitizeForSheet(params.role || ''),
+      sanitizeForSheet(params.heardFrom || ''),
       params.consent === 'yes' ? 'yes' : 'no',
       newPosition,
       'Pending',
@@ -66,11 +81,23 @@ function doPost(e) {
 }
 
 function getSheet() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.getSheets()[0];
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(COLUMNS);
   }
   return sheet;
+}
+
+// Google Sheets treats a cell starting with =, +, -, or @ as a formula.
+// User-supplied fields are public-endpoint input, so prefix any such value
+// with an apostrophe to force it to be stored as literal text.
+function sanitizeForSheet(value) {
+  const str = String(value == null ? '' : value);
+  if (/^[=+\-@]/.test(str)) {
+    return "'" + str;
+  }
+  return str;
 }
 
 function findRowByEmail(sheet, email) {

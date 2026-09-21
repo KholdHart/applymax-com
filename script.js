@@ -44,7 +44,6 @@ form.addEventListener('submit', async (event) => {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       body: new URLSearchParams(payload),
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     });
     const json = await response.json();
     const result = parseSignupResponse(json);

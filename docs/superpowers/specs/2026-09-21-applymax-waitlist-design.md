@@ -100,12 +100,22 @@ All thrown errors are caught inside `doPost` and returned as `{status:
 fetch(APPS_SCRIPT_URL, {
   method: 'POST',
   body: new URLSearchParams({ name, email, role, heardFrom, consent, website /* honeypot */ }),
-  headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight
 })
 ```
 
-`text/plain` content-type is used specifically to dodge the CORS preflight,
-since Apps Script's web app endpoint doesn't answer `OPTIONS` requests.
+No explicit `Content-Type` header is set. Letting `fetch` derive it from the
+`URLSearchParams` body gives `application/x-www-form-urlencoded;charset=UTF-8`,
+which is one of the three CORS-safelisted content types, so this still avoids
+a preflight — Apps Script's web app endpoint doesn't answer `OPTIONS`
+requests. Unlike `text/plain`, the safelisted urlencoded content-type is also
+what lets Apps Script correctly populate `e.parameter` server-side, so
+`doPost` reads the submitted fields (an earlier version of this spec set
+`Content-Type: text/plain` to dodge the preflight, but urlencoded is itself
+safelisted and doesn't need that workaround — and `text/plain` breaks
+`e.parameter` parsing). As defense in depth, `doPost` also falls back to
+parsing `e.postData.contents` directly if `e.parameter` comes back empty, so
+the backend works correctly regardless of how Apps Script ends up parsing the
+request.
 
 ## Error handling
 
