@@ -1,0 +1,14 @@
+{
+  "name": "applymax-com",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Waitlist landing page for ApplyMaxx",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "serve": "npx serve ."
+  },
+  "devDependencies": {
+    "vitest": "^2.1.0"
+  }
+}
